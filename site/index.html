@@ -28,11 +28,6 @@
             top: 0;
             left: 0;
         }
-
-        .video-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
     </style>
 </head>
 <body>
@@ -40,8 +35,13 @@
 		<!-- Banner Image -->
         <img src="https://scontent.fdac165-1.fna.fbcdn.net/v/t39.30808-6/421241149_898210958979167_4548042350809322381_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3oVcvKDHwQ0Q7kNvgEFtu3k&_nc_ht=scontent.fdac165-1.fna&oh=00_AYA-CYTmAxBrp36aMphbEKZ51xYVJB3McQwRA19wVDwqPg&oe=6660FC2F" alt="Flyger Holidays Banner" class="banner-image">
         <!-- Banner Video -->
-        <div class="video-container">
-            <video id="promo-video" src="https://fb.watch/sq_Exd8tF_" muted></video>
+        <div class="video-container" id="video-container">
+            <div class="fb-video" 
+                 data-href="https://www.facebook.com/facebook/videos/10153231379946729/" 
+                 data-width="auto" 
+                 data-autoplay="true"
+                 data-allowfullscreen="true">
+            </div>
         </div>
         <h1>Flyger Holidays: Your Ultimate Travel Booking Hub</h1>
         <nav>
@@ -121,17 +121,68 @@
         <p>&copy; 2024 Flyger Holidays. All rights reserved.</p>
     </footer>
 
+    <!-- Load Facebook SDK -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" 
+        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v10.0" 
+        nonce="k6B5Fr5f">
+    </script>
+
      <script>
         document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                // Hide the banner image and show the video container
-                document.querySelector('header').style.background = 'none';
-                document.querySelector('.video-container').style.display = 'block';
+            let fbVideo = null;
+            let videoInterval = null;
+            const videoContainer = document.querySelector('.video-container');
+            const banner = document.querySelector('#banner');
 
-                // Play the video
-                const video = document.getElementById('promo-video');
-                video.play();
-            }, 2000); // 2 seconds delay
+            // Load Facebook SDK
+            window.fbAsyncInit = function() {
+                FB.init({
+                    xfbml: true,
+                    version: 'v10.0'
+                });
+
+                // Find the video player after SDK is initialized
+                FB.Event.subscribe('xfbml.ready', function(msg) {
+                    if (msg.type === 'video') {
+                        fbVideo = msg.instance;
+                        fbVideo.play();
+                        setupVideoLoop();
+                    }
+                });
+            };
+
+            function setupVideoLoop() {
+                // Start the initial loop with a delay
+                setTimeout(playVideo, 2000);
+            }
+
+            function playVideo() {
+                banner.style.background = 'none';
+                videoContainer.style.display = 'block';
+
+                if (fbVideo) {
+                    fbVideo.play();
+                }
+
+                videoInterval = setInterval(checkVideoEnd, 1000);
+            }
+
+            function checkVideoEnd() {
+                if (fbVideo && fbVideo.getState && fbVideo.getState() === 'ended') {
+                    stopVideo();
+                }
+            }
+
+            function stopVideo() {
+                clearInterval(videoInterval);
+                videoContainer.style.display = 'none';
+                banner.style.background = 'url("https://scontent.fdac165-1.fna.fbcdn.net/v/t39.30808-6/421241149_898210958979167_4548042350809322381_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3oVcvKDHwQ0Q7kNvgEFtu3k&_nc_ht=scontent.fdac165-1.fna&oh=00_AYA-CYTmAxBrp36aMphbEKZ51xYVJB3McQwRA19wVDwqPg&oe=6660FC2F") no-repeat center center';
+                banner.style.backgroundSize = 'cover';
+
+                // Restart the loop after 2 seconds
+                setTimeout(playVideo, 2000);
+            }
         });
     </script>
 
