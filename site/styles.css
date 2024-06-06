@@ -1,0 +1,25 @@
+/* styles.css */
+
+/* Set the font for paragraph elements */
+p {
+    font-family: Arial, sans-serif;
+}
+
+/* Set the font for h1 and h2 elements */
+h1, h2 {
+    font-family: "Times New Roman", Times, serif;
+}
+    html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: auto;
+        }
+
+        
