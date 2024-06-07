@@ -28,11 +28,12 @@ h2 {
             height: 100%;
             overflow-x: hidden;
         }
+        */
 
         .banner-image {
             width: 100%;
             height: auto;
-        } */
+        } 
 
 body {
     margin: 0;
