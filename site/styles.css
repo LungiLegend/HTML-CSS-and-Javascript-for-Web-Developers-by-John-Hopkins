@@ -21,7 +21,7 @@ h2 {
     font-weight: semi-bold;
     color: #333333; /* Dark Gray */
 }
-    html, body {
+    /* html, body {
             margin: 0;
             padding: 0;
             width: 100%;
@@ -32,6 +32,19 @@ h2 {
         .banner-image {
             width: 100%;
             height: auto;
-        }
+        } */
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Ensure the body takes up the full viewport height */
+    background-image: url('https://images.stockcake.com/public/7/7/1/771b17b0-e763-45f2-98b3-e059c232dc5b_large/lantern-market-bustle-stockcake.jpg');
+    background-size: cover; /* Ensure the background covers the entire area */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-attachment: fixed; /* Ensure the background stays fixed when scrolling */
+    font-family: Arial, sans-serif;
+    color: white; /* Change text color for better contrast with the background */
+}
 }
 
